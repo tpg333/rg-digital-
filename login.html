@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Entrar – Carteira Digital</title>
+	<link rel="manifest" href="manifest.json" />
+	<meta name="theme-color" content="#1a7a2e" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<meta name="apple-mobile-web-app-title" content="Carteira" />
+	<link rel="apple-touch-icon" href="icon-192.png" />
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		:root {
+			--green: #1a7a2e;
+			--bg: #e8eaed;
+			--white: #ffffff;
+			--input-border: #c8cace;
+			--btn-disabled: #a0a4aa;
+			--text-dark: #111;
+			--text-muted: #555;
+		}
+
+		html,
+		body {
+			width: 100%;
+			min-height: 100vh;
+			background: #d0d3d8;
+			font-family: "Roboto", sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+		}
+
+		.phone-shell {
+			width: 100%;
+			max-width: 430px;
+			min-height: 100vh;
+			background: var(--bg);
+			display: flex;
+			flex-direction: column;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.header {
+			background: var(--white);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 24px 16px 14px;
+			border-bottom: 1px solid #e0e0e0;
+		}
+
+		.header-title {
+			font-size: 17px;
+			font-weight: 500;
+			color: #111;
+		}
+
+		.login-body {
+			flex: 1;
+			padding: 36px 24px 32px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.badge-wrap {
+			margin-bottom: 28px;
+		}
+
+		.badge-svg {
+			width: 120px;
+			height: 120px;
+		}
+
+		.login-title {
+			font-size: 28px;
+			font-weight: 900;
+			color: var(--text-dark);
+			align-self: flex-start;
+			line-height: 1.15;
+			margin-bottom: 6px;
+		}
+
+		.login-sub {
+			font-size: 15px;
+			color: var(--text-muted);
+			align-self: flex-start;
+			margin-bottom: 18px;
+		}
+
+		.input-wrap {
+			width: 100%;
+			background: var(--white);
+			border: 1.5px solid var(--input-border);
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			padding: 0 14px;
+			height: 54px;
+			margin-bottom: 12px;
+			transition: border-color 0.2s;
+		}
+
+		.input-wrap.error {
+			border-color: #d32f2f;
+		}
+
+		.input-wrap:focus-within {
+			border-color: var(--green);
+		}
+
+		.input-wrap input {
+			flex: 1;
+			border: none;
+			outline: none;
+			font-size: 16px;
+			font-family: "Roboto", sans-serif;
+			color: var(--text-dark);
+			background: transparent;
+		}
+
+		.input-wrap input::placeholder {
+			color: #aaa;
+		}
+
+		.toggle-pw {
+			background: none;
+			border: none;
+			cursor: pointer;
+			padding: 4px;
+			color: #888;
+			display: flex;
+			align-items: center;
+		}
+
+		.toggle-pw svg {
+			width: 22px;
+			height: 22px;
+		}
+
+		.error-msg {
+			align-self: flex-start;
+			font-size: 13px;
+			color: #d32f2f;
+			margin-bottom: 20px;
+			min-height: 18px;
+			opacity: 0;
+			transition: opacity 0.2s;
+		}
+
+		.error-msg.visible {
+			opacity: 1;
+		}
+
+		.btn-entrar {
+			width: 100%;
+			height: 54px;
+			border-radius: 30px;
+			border: none;
+			background: var(--btn-disabled);
+			color: var(--white);
+			font-size: 17px;
+			font-weight: 700;
+			font-family: "Roboto", sans-serif;
+			cursor: default;
+			transition: background 0.2s;
+			margin-bottom: 36px;
+		}
+
+		.btn-entrar.active {
+			background: var(--green);
+			cursor: pointer;
+		}
+
+		.footer-links {
+			display: flex;
+			gap: 32px;
+			justify-content: center;
+		}
+
+		.footer-links a {
+			font-size: 15px;
+			font-weight: 700;
+			color: #1a4f7a;
+			text-decoration: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="phone-shell">
+		<div class="header">
+			<span class="header-title">Entrar</span>
+		</div>
+
+		<div class="login-body">
+			<div class="badge-wrap">
+				<svg class="badge-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M100 8 L180 40 L190 120 Q185 175 100 210 Q15 175 10 120 L20 40 Z" fill="#C8A84B"
+						stroke="#8B6914" stroke-width="3" />
+					<path d="M100 20 L170 48 L178 118 Q174 165 100 196 Q26 165 22 118 L30 48 Z" fill="#D4B86A"
+						stroke="#8B6914" stroke-width="1.5" />
+					<path d="M52 52 Q100 38 148 52 L152 68 Q100 54 48 68 Z" fill="#8B6914" />
+					<text x="100" y="64" text-anchor="middle" font-size="11" font-weight="900" fill="#FFE680"
+						font-family="Roboto" letter-spacing="1.5">POLÍCIA</text>
+					<rect x="68" y="72" width="64" height="76" rx="4" fill="#ffffff" stroke="#8B6914"
+						stroke-width="1.5" />
+					<rect x="68" y="88" width="64" height="12" fill="#111" />
+					<rect x="68" y="100" width="64" height="12" fill="#ffffff" />
+					<ellipse cx="100" cy="108" rx="18" ry="20" fill="#c0392b" />
+					<text x="100" y="103" text-anchor="middle" font-size="7" fill="#fff" font-family="Roboto"
+						font-weight="700">POLÍCIA</text>
+					<text x="100" y="112" text-anchor="middle" font-size="6" fill="#fff"
+						font-family="Roboto">CIVIL</text>
+					<text x="100" y="120" text-anchor="middle" font-size="7" fill="#fff" font-family="Roboto"
+						font-weight="700">SP</text>
+					<path d="M68 108 Q58 100 52 90 Q60 92 65 100 Q62 95 58 88 Q66 90 70 100Z" fill="#2e7d32" />
+					<path d="M132 108 Q142 100 148 90 Q140 92 135 100 Q138 95 142 88 Q134 90 130 100Z" fill="#2e7d32" />
+					<path d="M72 145 Q100 138 128 145 L126 156 Q100 149 74 156 Z" fill="#c0392b" />
+					<text x="100" y="153" text-anchor="middle" font-size="8" font-weight="700" fill="#fff"
+						font-family="Roboto" letter-spacing="0.5">SÃO PAULO</text>
+					<path d="M48 160 Q100 148 152 160 L156 178 Q100 166 44 178 Z" fill="#8B6914" />
+					<text x="100" y="174" text-anchor="middle" font-size="14" font-weight="900" fill="#FFE680"
+						font-family="Roboto" letter-spacing="2">CIVIL</text>
+					<text x="100" y="196" text-anchor="middle" font-size="11" font-weight="700" fill="#8B6914"
+						font-family="Roboto">SP</text>
+					<polygon points="100,2 103,10 111,10 105,15 107,23 100,18 93,23 95,15 89,10 97,10" fill="#FFE680"
+						stroke="#8B6914" stroke-width="0.5" />
+				</svg>
+			</div>
+
+			<h1 class="login-title">Acesse a sua conta</h1>
+			<p class="login-sub">Insira seu usuário e senha.</p>
+
+			<div class="input-wrap" id="wrap-usuario">
+				<input type="text" id="input-usuario" placeholder="Usuário" oninput="onInput()" autocomplete="username"
+					onkeydown="if(event.key==='Enter') doLogin();" />
+			</div>
+
+			<div class="input-wrap" id="wrap-senha">
+				<input type="password" id="input-senha" placeholder="Senha" oninput="onInput()"
+					autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin();" />
+				<button class="toggle-pw" onclick="togglePw()" aria-label="Mostrar senha">
+					<svg id="eye-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+						<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+						<path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
+						<line x1="1" y1="1" x2="23" y2="23" />
+					</svg>
+				</button>
+			</div>
+
+			<p class="error-msg" id="error-msg">Usuário ou senha incorretos.</p>
+
+			<button class="btn-entrar" id="btn-entrar" onclick="doLogin()">Entrar</button>
+
+			<div class="footer-links">
+				<a href="#">Ajuda</a>
+				<a href="#">Privacidade</a>
+				<a href="#">Termos</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// ── Lista fixa de usuários ──────────────────────────────────────────
+		const USUARIOS = {
+			"gabriel": "12345",
+			"lucas": "12345",
+			"joao": "12345",
+			"javali": "12345",
+			"usuario1": "12345",
+			"usuario2": "12345",
+			"usuario3": "12345",
+			"usuario4": "12345",
+			"usuario5": "12345",
+			"usuario6": "12345",
+			"usuario7": "12345",
+			"usuario8": "12345",
+			"usuario9": "12345",
+			"usuario10": "12345",
+			"usuario11": "12345",
+			"usuario12": "12345",
+			"usuario13": "12345",
+			"usuario14": "12345",
+			"usuario15": "12345",
+			"usuario16": "12345",
+			"usuario17": "12345",
+			"usuario18": "12345",
+			"usuario19": "12345",
+			"usuario20": "12345",
+		};
+
+		// ── Service Worker ──────────────────────────────────────────────────
+		if ("serviceWorker" in navigator) {
+			navigator.serviceWorker.register("service-worker.js");
+		}
+
+		function onInput() {
+			const u = document.getElementById("input-usuario").value.trim();
+			const s = document.getElementById("input-senha").value;
+			document.getElementById("btn-entrar").classList.toggle("active", u.length > 0 && s.length > 0);
+			document.getElementById("wrap-usuario").classList.remove("error");
+			document.getElementById("wrap-senha").classList.remove("error");
+			document.getElementById("error-msg").classList.remove("visible");
+		}
+
+		let pwVisible = false;
+		function togglePw() {
+			pwVisible = !pwVisible;
+			document.getElementById("input-senha").type = pwVisible ? "text" : "password";
+			document.getElementById("eye-icon").innerHTML = pwVisible
+				? `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`
+				: `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+			   <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+			   <line x1="1" y1="1" x2="23" y2="23"/>`;
+		}
+
+		function doLogin() {
+			const usuario = document.getElementById("input-usuario").value.trim().toLowerCase();
+			const senha = document.getElementById("input-senha").value;
+			if (!usuario || !senha) return;
+
+			if (USUARIOS[usuario] && USUARIOS[usuario] === senha) {
+				sessionStorage.setItem("logado", "1");
+				sessionStorage.setItem("usuario_atual", usuario);
+				window.location.href = "lista.html";
+			} else {
+				document.getElementById("wrap-usuario").classList.add("error");
+				document.getElementById("wrap-senha").classList.add("error");
+				document.getElementById("error-msg").classList.add("visible");
+				document.getElementById("input-senha").value = "";
+				document.getElementById("btn-entrar").classList.remove("active");
+			}
+		}
+	</script>
+</body>
+
+</html>
